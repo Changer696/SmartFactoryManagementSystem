@@ -1,3 +1,6 @@
 <Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="Factory.cs" />
+  </Folder>
   <Project Path="SmartFactoryManagementSystem/SmartFactoryManagementSystem.csproj" />
 </Solution>
