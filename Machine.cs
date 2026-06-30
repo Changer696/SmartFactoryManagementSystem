@@ -68,10 +68,26 @@ namespace SmartFactoryManagementSystem
             }
 
             parts.Add(part);
+            UpdateConditionFromParts();
+        }
+
+        public void DegradeParts(double amount)
+        {
+            foreach (var part in parts)
+            {
+                part.Degrade(amount);
+            }
+
+            UpdateConditionFromParts();
         }
 
         public void Repair()
         {
+            foreach (var part in parts)
+            {
+                part.ReplacePart();
+            }
+
             status = MachineStatus.Maintenance;
             condition = MachineCondition.Good;
         }
@@ -122,6 +138,38 @@ namespace SmartFactoryManagementSystem
         public string GetName()
         {
             return name;
+        }
+
+        private void UpdateConditionFromParts()
+        {
+            if (parts.Count == 0)
+            {
+                return;
+            }
+
+            bool hasCriticalPart = false;
+            foreach (var part in parts)
+            {
+                if (!part.IsFunctional())
+                {
+                    hasCriticalPart = true;
+                    break;
+                }
+            }
+
+            if (hasCriticalPart)
+            {
+                condition = MachineCondition.Critical;
+                status = MachineStatus.Maintenance;
+            }
+            else if (parts.Exists(p => p.GetWearLevel() >= 50))
+            {
+                condition = MachineCondition.Good;
+            }
+            else
+            {
+                condition = MachineCondition.Excellent;
+            }
         }
     }
 }
