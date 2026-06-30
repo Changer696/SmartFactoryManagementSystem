@@ -4,6 +4,12 @@ public class Factory
 {
 	private string? name;
 
-	public static void AddEmployee();
-	public static void 
+	public static void AddEmployee()
+	{
+
+	}
+	public static void aaa()
+	{
+
+	}
 }

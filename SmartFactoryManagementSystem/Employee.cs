@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Text;
 
 namespace SmartFactoryManagementSystem
@@ -12,6 +13,7 @@ namespace SmartFactoryManagementSystem
     }
     internal abstract class Employee
     {
+        string? id;
         private string? name;
         private EmployeeStatus? status;
 
@@ -21,7 +23,11 @@ namespace SmartFactoryManagementSystem
 
         private int ore;
 
-
+        public string? Id
+        {
+            get { return id; }
+            set { id = value; }
+        }
         public string? Name
         {
             get { return name; }
@@ -46,8 +52,9 @@ namespace SmartFactoryManagementSystem
         }
 
 
-        public Employee(string? name, DateTime HireDate, string? profesie, int ore)
+        public Employee(string? id, string? name, DateTime HireDate, string? profesie, int ore)
         {
+            Id = id;
             Name = name;
             Ore = ore;
             Profesie = profesie;
@@ -58,7 +65,7 @@ namespace SmartFactoryManagementSystem
 
         public abstract void Work();
 
-        public abstract void Salarys();
+        public abstract void Salaries();
 
         public virtual void PrintInfo()
         {
@@ -72,7 +79,7 @@ namespace SmartFactoryManagementSystem
         private int nrMasiniDefecte;
         private decimal profitLuna;
 
-        public int NrMasini 
+        public int NrMasini
         {
             get { return NrMasini; }
             set
@@ -93,10 +100,10 @@ namespace SmartFactoryManagementSystem
         }
 
 
-        public Director(string? name, DateTime HireDate, string? profesie, int ore,int nrMasiniDefecte,decimal profitLuna) : base(name, HireDate, profesie, ore)
+        public Director(string? id, string? name, DateTime HireDate, string? profesie, int ore, int nrMasiniDefecte, decimal profitLuna) : base(id, name, HireDate, profesie, ore)
         {
             NrMasini = nrMasiniDefecte;
-            ProfitLuna= profitLuna;
+            ProfitLuna = profitLuna;
         }
 
         private void AnalizeazaDocumentele()
@@ -108,7 +115,7 @@ namespace SmartFactoryManagementSystem
 
         private void Profit()
         {
-            if(profitLuna >= 30000)
+            if (profitLuna >= 30000)
             {
                 Console.WriteLine("Compania este stabila financiar ,ne putem gandi si la alte investitii");
             }
@@ -120,11 +127,11 @@ namespace SmartFactoryManagementSystem
 
         private void DecizieMasinarii()
         {
-            if(nrMasiniDefecte >= 3)
+            if (nrMasiniDefecte >= 3)
             {
                 Console.WriteLine("Anuntati Machine Operatorul despre probleme si respectati decizia lui,oprim productia sau inca producem");
             }
-            else if(nrMasiniDefecte>0 || nrMasiniDefecte<=2)
+            else if (nrMasiniDefecte > 0 || nrMasiniDefecte <= 2)
             {
                 Console.WriteLine("Anunta imediat mecanicul sa se ocupe de ele,ne incetineste productia");
             }
@@ -140,33 +147,110 @@ namespace SmartFactoryManagementSystem
             AnalizeazaDocumentele();
             Profit();
             DecizieMasinarii();
-            
+
         }
 
-        public override void Salarys()
+        public override void Salaries()
         {
             double salary;
-            Console.WriteLine("Salariul de baza a unui director este de 17.5 dolari pe ora");
-            salary = 17.5 * Ore;
+            Console.WriteLine("Salariul de baza a unui director este de 23.5 dolari pe ora");
+            salary = 23.5 * Ore;
         }
     }
 
-        internal class ProductionManager : Employee
-        {
+    internal class ProductionManager : Employee
+    {
         private int Add;
         private string? Item;
 
 
-            public ProductionManager(string? name, DateTime HireDate, string? profesie, int ore) : base(name, HireDate, profesie, ore)
+        public ProductionManager(string? id, string? name, DateTime HireDate, string? profesie, int ore) : base(id, name, HireDate, profesie, ore)
+        { }
+
+
+        public override void Work()
+        {
+            Console.WriteLine("Preia obiectivele de la director și le transpune în targeturi zilnice pentru echipe");
+        }
+
+        public override void Salaries()
+        {
+            double salary;
+            Console.WriteLine("Salariul de baza a unui director este de 16.5 dolari pe ora");
+            salary = 16.5 * Ore;
+        }
+
+
+    }
+
+    internal class Engineer : Employee
+    {
+        private bool inovatie;
+        public bool inovation
+        {
+            get { return inovatie; }
+            set { inovatie = value; }
+
+        }
+
+
+        public Engineer(string? id, string? name, DateTime HireDate, string? profesie, int ore) : base(id, name, HireDate, profesie, ore)
+        { }
+
+        private void Inovatie()
+        {
+            Console.WriteLine("Lucreaza la o noua jucarie care sa interactioneze cu un copil");
+            if (inovatie == true)
+            {
+
+                Console.WriteLine("Au reusit sa aduca proiectul la sfartit si o sa primeasca o marire de salariu ");
+
+            }
+            else
+            {
+                Console.WriteLine("Inca lucreaza la jucarie...");
+            }
+        }
+        public override void Work()
+        {
+            Console.WriteLine("Se ocupa pe partea de proiectare");
+            Inovatie();
+        }
+
+        public override void Salaries()
+        {
+            double salary;
+            if (inovatie == true)
+            {
+
+                Console.WriteLine("Salariul de baza a unui inginer este de 21.5 dolari pe ora");
+                salary = 21.5 * Ore;
+            }
+
+            else
+            {
+                Console.WriteLine("Salariul de baza a unui inginer este de 18.5 dolari pe ora");
+                salary = 18.5 * Ore;
+            }
+        }
+
+
+
+        internal class Tehniocian : Employee
+        {
+
+
+
+            public Tehniocian(string? id, string? name, DateTime HireDate, string? profesie, int ore) : base(id, name, HireDate, profesie, ore)
             { }
-            
+
 
             public override void Work()
             {
-                Console.WriteLine("Preia obiectivele de la director și le transpune în targeturi zilnice pentru echipe");
+                Console.WriteLine("Tehnicianl se ocupa cu mentenanta aparatelor");
             }
 
-            public override void Salarys()
+            public override void Salaries()
             {
                 double salary;
                 Console.WriteLine("Salariul de baza a unui director este de 15.5 dolari pe ora");
@@ -175,4 +259,108 @@ namespace SmartFactoryManagementSystem
 
 
         }
+
+        internal class MachineOperator : Employee
+        {
+
+
+
+            public MachineOperator(string? id, string? name, DateTime HireDate, string? profesie, int ore) : base(id, name, HireDate, profesie, ore)
+            { }
+
+
+            public override void Work()
+            {
+                Console.WriteLine("Setează, pornește și supraveghează mașinile care fabrică produsele.");
+            }
+
+            public override void Salaries()
+            {
+                double salary;
+                Console.WriteLine("Salariul de baza a unui director este de 15.5 dolari pe ora");
+                salary = 15.5 * Ore;
+            }
+
+
+        }
+        internal class WareHouseOperator : Employee
+        {
+
+
+
+            public WareHouseOperator(string? id, string? name, DateTime HireDate, string? profesie, int ore) : base(id, name, HireDate, profesie, ore)
+            { }
+
+
+            public override void Work()
+            {
+                Console.WriteLine("Gestionează stocurile de materii prime și de produse finite.");
+            }
+
+            public override void Salaries()
+            {
+                double salary;
+                Console.WriteLine("Salariul de baza a unui director este de 13.5 dolari pe ora");
+                salary = 15.5 * Ore;
+            }
+
+
+        }
+
+        internal class SalesAgent : Employee
+        {
+
+
+
+            public SalesAgent(string? id, string? name, DateTime HireDate, string? profesie, int ore) : base(id, name, HireDate, profesie, ore)
+            { }
+
+
+            public override void Work()
+            {
+                Console.WriteLine("Aduce bani în companie prin vânzarea produselor fabricate.");
+            }
+
+            public override void Salaries()
+            {
+                double salary;
+                Console.WriteLine("Salariul de baza a unui director este de 14.5 dolari pe ora");
+                salary = 14.5 * Ore;
+            }
+
+
+        }
+
+        internal class Accountant : Employee
+        {
+
+
+
+            public Accountant(string? id, string? name, DateTime HireDate, string? profesie, int ore) : base(id, name, HireDate, profesie, ore)
+            { }
+
+
+            public override void Work()
+            {
+                Console.WriteLine("Ține evidența clară a tuturor veniturilor și cheltuielilor fabricii.");
+            }
+
+            public override void Salaries()
+            {
+                double salary;
+                Console.WriteLine("Salariul de baza a unui director este de 16.5 dolari pe ora");
+                salary = 16.5 * Ore;
+            }
+
+
+        }
+
+
+
+
+
+
+
+
     }
+}

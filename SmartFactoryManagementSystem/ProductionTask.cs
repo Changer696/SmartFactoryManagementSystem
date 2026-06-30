@@ -9,53 +9,11 @@ namespace SmartFactoryManagementSystem
         High
     }
 
-    public class Product
-    {
-        private readonly string name;
-        private readonly double productionCost;
-        private readonly double sellingPrice;
-        private int quantity;
+      
 
-        public Product(string name, double productionCost, double sellingPrice, int quantity)
-        {
-            this.name = name;
-            this.productionCost = productionCost;
-            this.sellingPrice = sellingPrice;
-            this.quantity = quantity;
-        }
+        
 
-        public int GetQuantity()
-        {
-            return quantity;
-        }
-
-        public void SetQuantity(int qty)
-        {
-            if (qty < 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(qty), "Quantity cannot be negative.");
-            }
-
-            quantity = qty;
-        }
-
-        public double GetSellingPrice()
-        {
-            return sellingPrice;
-        }
-
-        public double GetProductionCost()
-        {
-            return productionCost;
-        }
-
-        public string GetName()
-        {
-            return name;
-        }
-    }
-
-    public class ProductionTask : IComparable<ProductionTask>
+    public class ProductionTask
     {
         private readonly string taskId;
         private readonly Product targetProduct;
