@@ -2,51 +2,102 @@
 
 namespace SmartFactoryManagementSystem
 {
+    public enum ProductCategory
+    {
+        OutdoorToys,
+        EducationalToys,
+        PretendToys
+
+    }
 
 	public abstract  class Product
 	{
-		//PROPRIETATI
-		public string? Name { get; set; }
-		decimal ProductionCost { get; set; }
-		decimal SellingPrice { get; set; }
-		int Quantity { get; set; }
+        //PROPRIETATI
+        private decimal productionCost;
+        private decimal sellingPrice;
+        private int quantity;
 
-		DateTime ProductionDate { get; set; }
-		
-		//Constructor
+        public string? Name { get; set; }
+		public ProductCategory Category { get; set; }
+    
+		 public DateTime ProductionDate { get; set; }
 
-		public Product(string name, decimal productionCost, decimal sellingPrice, int quantity, DateTime productionDate)
+        public decimal ProductionCost
+        {
+            get { return productionCost; }
+            set
+            {
+                if (value < 0) throw new ArgumentException("Costul de producție nu poate fi negativ."); 
+                productionCost = value;
+            }
+        }
+
+        public decimal SellingPrice
+        {
+            get { return sellingPrice; }
+            set
+            {
+                if (value < 0) throw new ArgumentException("Prețul de vânzare nu poate fi negativ."); 
+                sellingPrice = value;
+            }
+        }
+
+        public int Quantity
+        {
+            get { return quantity; }
+            set
+            {
+                if (value < 0) throw new ArgumentException("Cantitatea nu poate fi negativă."); 
+                quantity = value;
+            }
+        }
+        //Constructor
+
+        public Product(string name, ProductCategory category, decimal productionCost, decimal sellingPrice, int quantity, DateTime productionDate)
+        {
+            Name = name;
+            Category = category;
+            ProductionCost = productionCost; 
+            SellingPrice = sellingPrice;
+            Quantity = quantity;
+            ProductionDate = productionDate;
+        }
+        // METODE
+
+        public decimal CalculateProfit()
 		{
-			Name = name;
-			ProductionCost = productionCost;
-			SellingPrice = sellingPrice;
-			Quantity = quantity;
-			ProductionDate = productionDate;
-		}
-		// METODE
-
-		public decimal CalculateProfit(decimal ProductionCost, decimal SellingPrice)
-		{
-            decimal profit = 0;
-            profit = SellingPrice - ProductionCost;
-
-            return profit;
+            
+            return SellingPrice - ProductionCost;
+ 
 		}
 		public virtual void Describe()
 		{
             Console.WriteLine($"Name: {Name}");
-            Console.WriteLine($"Production Cost: {ProductionCost}");
-            Console.WriteLine($"Selling Price: {SellingPrice}");
+            Console.WriteLine($"Category: {Category}");
+            Console.WriteLine($"Production Cost: {ProductionCost:C}");
+            Console.WriteLine($"Selling Price: {SellingPrice:C}");
+            Console.WriteLine($"Profit: {CalculateProfit():C}");
             Console.WriteLine($"Quantity in Stock: {Quantity}");
             Console.WriteLine($"Production Date: {ProductionDate}");
             Console.WriteLine();
 		}
 
-        public abstract void AddStock();
+       /* public void AddStock(int amount)
+        {
+            if (amount > 0)
+            {
+                Quantity += amount;
+            }
+        }
 
-
-        public abstract void RemoveStock();
-		
+        public  void RemoveStock(int amount)
+        {
+            if(amount > 0 && (Quantity - amount) >= 0)
+            {
+                Quantity -= amount;
+            }
+        }
+		*/
 		
 	}
 
@@ -58,55 +109,34 @@ namespace SmartFactoryManagementSystem
 						decimal sellingPrice,
 						int quantity,
 						DateTime productionDate)
-			:base(name, productioncost, sellingPrice, quantity, productionDate) 
+			:base(name,ProductCategory.PretendToys, productioncost, sellingPrice, quantity, productionDate) 
 		{
 		}
         public override void Describe()
         {
-            Console.WriteLine("---Laptop---");
+            Console.WriteLine("---Ursulet de Plus---");
             base.Describe();
         }
 
-        public override void AddStock()
-        { 
-
-        }
-
-
-
-        public override void RemoveStock()
-        {
-
-        }
     }
 
-    internal class TrenLemn : Product
+    internal class CuburiLemn : Product
     {
         //Constructor
-        public TrenLemn(string name,
+        public CuburiLemn(string name,
                         decimal productioncost,
                         decimal sellingPrice,
                         int quantity,
                         DateTime productionDate)
-            : base(name, productioncost, sellingPrice, quantity, productionDate)
+            : base(name,ProductCategory.EducationalToys, productioncost, sellingPrice, quantity, productionDate)
         {
         }
         public override void Describe()
         {
-            Console.WriteLine("---Telefon---");
+            Console.WriteLine("---Cuburi de Lemn---");
             base.Describe();
         }
-        public override void AddStock()
-        {
-
-        }
-
-
-
-        public override void RemoveStock()
-        {
-
-        }
+       
     }
 
     internal class  Papusa : Product
@@ -117,19 +147,14 @@ namespace SmartFactoryManagementSystem
                         decimal sellingPrice,
                         int quantity,
                         DateTime productionDate)
-            : base(name, productioncost, sellingPrice, quantity, productionDate)
+            : base(name,ProductCategory.PretendToys, productioncost, sellingPrice, quantity, productionDate)
         {
         }
-        public override void AddStock()
+       
+        public override void Describe()
         {
-
-        }
-
-
-
-        public override void RemoveStock()
-        {
-
+            Console.WriteLine("---Papusa---");
+            base.Describe();
         }
     }
     internal class Minge : Product
@@ -140,52 +165,32 @@ namespace SmartFactoryManagementSystem
                         decimal sellingPrice,
                         int quantity,
                         DateTime productionDate)
-            : base(name, productioncost, sellingPrice, quantity, productionDate)
+            : base(name,ProductCategory.OutdoorToys, productioncost, sellingPrice, quantity, productionDate)
         {
         }
-        public override void AddStock()
-        {
-
-        }
-
-
-
-        public override void RemoveStock()
-        {
-
-        }
+        
         public override void Describe()
         {
-            Console.WriteLine("---Casti---");
+            Console.WriteLine("---Minge---");
             base.Describe();
         }
     }
 
-	internal  class Puzzle : Product
+	internal  class Frisbee : Product
     {
         //Constructor
-        public Puzzle(string name,
+        public Frisbee(string name,
                         decimal productioncost,
                         decimal sellingPrice,
                         int quantity,
                         DateTime productionDate)
-            : base(name, productioncost, sellingPrice, quantity, productionDate)
+            : base(name,ProductCategory.OutdoorToys, productioncost, sellingPrice, quantity, productionDate)
         {
         }
-        public override void AddStock()
-        {
-
-        }
-
-
-
-        public override void RemoveStock()
-        {
-
-        }
+        
         public override void Describe()
         {
-            Console.WriteLine("---Imprimanta---");
+            Console.WriteLine("---Frisbee---");
             base.Describe();
         }
     }
