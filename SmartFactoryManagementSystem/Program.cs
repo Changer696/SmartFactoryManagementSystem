@@ -1,4 +1,5 @@
 ﻿namespace SmartFactoryManagementSystem
+    
 {
     internal class Program
     {
