@@ -55,7 +55,7 @@ namespace SmartFactoryManagementSystem
         }
     }
 
-    public class ProductionTask
+    public class ProductionTask : IComparable<ProductionTask>
     {
         private readonly string taskId;
         private readonly Product targetProduct;
@@ -115,6 +115,22 @@ namespace SmartFactoryManagementSystem
         public Priority GetPriority()
         {
             return orderPriority;
+        }
+
+        public int CompareTo(ProductionTask? other)
+        {
+            if (other is null)
+            {
+                return 1;
+            }
+
+            int priorityComparison = orderPriority.CompareTo(other.orderPriority);
+            if (priorityComparison != 0)
+            {
+                return -priorityComparison;
+            }
+
+            return string.Compare(taskId, other.taskId, StringComparison.OrdinalIgnoreCase);
         }
     }
 }
