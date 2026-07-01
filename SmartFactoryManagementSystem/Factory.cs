@@ -37,10 +37,10 @@ public class Factory
         {
             if (_inventory[i].Name == productName)
             {
-                // Business Rule 14: Cannot sell products not available in inventory.
+                //  Rule 14: Cannot sell products not available in inventory.
                 if (_inventory[i].Quantity >= amountToSell)
                 {
-                    // Business Rule 15: Inventory quantity must decrease after successful sale.
+                    //  Rule 15: Inventory quantity must decrease after successful sale.
                     _inventory[i].Quantity -= amountToSell;
                     Console.WriteLine($"Sold {amountToSell}x {productName}. Remaining stock: {_inventory[i].Quantity}");
                     return true;
@@ -54,5 +54,12 @@ public class Factory
         }
         Console.WriteLine($"Sale failed: {productName} does not exist in inventory.");
         return false;
+    }
+    //Method used by Tehnician class
+
+
+    public void Repair()
+    {
+
     }
 }

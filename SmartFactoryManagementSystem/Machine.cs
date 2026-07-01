@@ -45,10 +45,7 @@ namespace SmartFactoryManagementSystem
             this.condition = MachineCondition.Good;
             this.parts = new List<MachinePart>();
 
-            AddPart(new MachinePart("MAT-001", "Glue", true, MachineMaterial.Glue));
-            AddPart(new MachinePart("MAT-002", "Wood", true, MachineMaterial.Wood));
-            AddPart(new MachinePart("MAT-003", "Paint", true, MachineMaterial.Paint));
-            AddPart(new MachinePart("MAT-004", "Thread", true, MachineMaterial.Thread));
+            
         }
 
        

@@ -1,8 +1,9 @@
 using System;
+using System.Xml.Linq;
 
 namespace SmartFactoryManagementSystem
 {
-<<<<<<< HEAD
+
     public enum MachineMaterial
     {
         Unknown,
@@ -12,11 +13,11 @@ namespace SmartFactoryManagementSystem
         Thread
     }
 
-    public class MachinePart
-=======
+
+
     public abstract class MachinePart
->>>>>>> d9f28c1756a410b8bf0ed1bd24194e0f13403068
     {
+  
         private readonly string partId;
         private readonly string name;
         private readonly MachineMaterial material;
@@ -81,5 +82,7 @@ namespace SmartFactoryManagementSystem
         {
             return material;
         }
+
     }
 }
+

@@ -9,27 +9,9 @@ namespace SmartFactoryManagementSystem
         {
         }
 
-<<<<<<< HEAD
-        public override bool Produce(Product product, int quantity)
-        {
-            if (product is null)
-            {
-                throw new ArgumentNullException(nameof(product));
-            }
-
-            if (!ConsumeMaterialsForProduction(quantity))
-            {
-                return false;
-            }
-
-            int currentQuantity = product.GetQuantity();
-            product.SetQuantity(currentQuantity + quantity);
-            return true;
-        }
-=======
+        //public override bool Produce(Product product, int quantity)
         
         
->>>>>>> d9f28c1756a410b8bf0ed1bd24194e0f13403068
 
         public override string RunDiagnostics()
         {
