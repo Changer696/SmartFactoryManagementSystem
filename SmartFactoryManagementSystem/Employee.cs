@@ -234,9 +234,9 @@ namespace SmartFactoryManagementSystem
             }
         }
 
+    }
 
-
-        internal class Tehniocian : Employee
+    internal class Tehniocian : Employee
         {
 
 
@@ -328,6 +328,22 @@ namespace SmartFactoryManagementSystem
                 salary = 14.5 * Ore;
             }
 
+            public void SellProduct(Factory factory, string productName, int quantity)
+            {
+                Console.WriteLine($"\n[Agent {Name}] Inițiază vânzarea pentru {quantity}x {productName}...");
+
+                // Factory.ProcessSale aplică Regula 14 (verifică dacă produsul există și dacă e suficient stoc)
+                bool saleSuccess = factory.ProcessSale(productName, quantity);
+
+                if (saleSuccess)
+                {
+                    Console.WriteLine($"[Agent {Name}] Vânzarea s-a încheiat cu succes!");
+                }
+                else
+                {
+                    Console.WriteLine($"[Agent {Name}] Vânzarea a picat. Regulile de business nu permit vânzarea.");
+                }
+            }
 
         }
 
@@ -362,5 +378,5 @@ namespace SmartFactoryManagementSystem
 
 
 
-    }
+  
 }

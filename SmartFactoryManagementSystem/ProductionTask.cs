@@ -13,7 +13,7 @@ namespace SmartFactoryManagementSystem
 
         
 
-    public class ProductionTask
+    public abstract class ProductionTask
     {
         private readonly string taskId;
         private readonly Product targetProduct;
