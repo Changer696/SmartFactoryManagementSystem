@@ -9,6 +9,7 @@ namespace SmartFactoryManagementSystem
         {
         }
 
+<<<<<<< HEAD
         public override bool Produce(Product product, int quantity)
         {
             if (product is null)
@@ -20,6 +21,10 @@ namespace SmartFactoryManagementSystem
             {
                 return false;
             }
+=======
+        
+        
+>>>>>>> d9f28c1756a410b8bf0ed1bd24194e0f13403068
 
             int currentQuantity = product.GetQuantity();
             product.SetQuantity(currentQuantity + quantity);

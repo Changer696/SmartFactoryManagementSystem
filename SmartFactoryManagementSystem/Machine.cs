@@ -51,7 +51,7 @@ namespace SmartFactoryManagementSystem
             AddPart(new MachinePart("MAT-004", "Thread", true, MachineMaterial.Thread));
         }
 
-        public abstract bool Produce(Product product, int quantity);
+       
 
         public abstract string RunDiagnostics();
 
