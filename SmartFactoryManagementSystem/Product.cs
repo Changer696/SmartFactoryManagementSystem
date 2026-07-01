@@ -51,6 +51,21 @@ namespace SmartFactoryManagementSystem
                 quantity = value;
             }
         }
+
+        public int GetQuantity()
+        {
+            return quantity;
+        }
+
+        public void SetQuantity(int value)
+        {
+            if (value < 0)
+            {
+                throw new ArgumentException("Cantitatea nu poate fi negativă.");
+            }
+
+            quantity = value;
+        }
         //Constructor
 
         public Product(string name, ProductCategory category, decimal productionCost, decimal sellingPrice, int quantity, DateTime productionDate)
