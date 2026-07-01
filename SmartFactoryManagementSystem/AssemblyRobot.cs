@@ -12,7 +12,10 @@ namespace SmartFactoryManagementSystem
         
         
 
-        
+            int currentQuantity = product.GetQuantity();
+            product.SetQuantity(currentQuantity + quantity);
+            return true;
+        }
 
         public override string RunDiagnostics()
         {
