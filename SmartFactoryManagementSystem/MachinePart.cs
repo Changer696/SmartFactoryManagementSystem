@@ -2,18 +2,34 @@ using System;
 
 namespace SmartFactoryManagementSystem
 {
+    public enum MachineMaterial
+    {
+        Unknown,
+        Glue,
+        Wood,
+        Paint,
+        Thread
+    }
+
     public class MachinePart
     {
         private readonly string partId;
         private readonly string name;
+        private readonly MachineMaterial material;
         private double wearLevel;
         private readonly bool isRequired;
 
         public MachinePart(string partId, string name, bool isRequired)
+            : this(partId, name, isRequired, MachineMaterial.Unknown)
+        {
+        }
+
+        public MachinePart(string partId, string name, bool isRequired, MachineMaterial material)
         {
             this.partId = partId;
             this.name = name;
             this.isRequired = isRequired;
+            this.material = material;
             this.wearLevel = 0;
         }
 
@@ -55,6 +71,11 @@ namespace SmartFactoryManagementSystem
         public bool IsRequired()
         {
             return isRequired;
+        }
+
+        public MachineMaterial GetMaterial()
+        {
+            return material;
         }
     }
 }

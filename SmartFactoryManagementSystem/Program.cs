@@ -10,6 +10,7 @@ namespace SmartFactoryManagementSystem
             int op;
             bool exit = false;
             var machines = new List<Machine>();
+            var products = new List<Product>();
 
             while (!exit)
             {
@@ -32,7 +33,7 @@ namespace SmartFactoryManagementSystem
                         Console.WriteLine("Employee Management is not implemented yet.");
                         break;
                     case 2:
-                        Console.WriteLine("Product Management is not implemented yet.");
+                        ShowProductManagementMenu(products);
                         break;
                     case 3:
                         ShowMachineManagementMenu(machines);
@@ -65,6 +66,151 @@ namespace SmartFactoryManagementSystem
                 }
 
                 return choice;
+            }
+
+            static int ReadInt(string prompt, int min = 0)
+            {
+                while (true)
+                {
+                    Console.Write(prompt);
+                    if (int.TryParse(Console.ReadLine(), out int value) && value >= min)
+                    {
+                        return value;
+                    }
+
+                    Console.WriteLine("Invalid number. Please try again.");
+                }
+            }
+
+            static decimal ReadDecimal(string prompt)
+            {
+                while (true)
+                {
+                    Console.Write(prompt);
+                    if (decimal.TryParse(Console.ReadLine(), out decimal value) && value >= 0)
+                    {
+                        return value;
+                    }
+
+                    Console.WriteLine("Invalid amount. Please try again.");
+                }
+            }
+
+            static DateTime ReadDate(string prompt)
+            {
+                while (true)
+                {
+                    Console.Write(prompt);
+                    if (DateTime.TryParse(Console.ReadLine(), out DateTime value))
+                    {
+                        return value;
+                    }
+
+                    Console.WriteLine("Invalid date. Please try again.");
+                }
+            }
+
+            static void ShowProductManagementMenu(List<Product> products)
+            {
+                while (true)
+                {
+                    Console.WriteLine("=== PRODUCT MANAGEMENT ===");
+                    Console.WriteLine("1. Produce product");
+                    Console.WriteLine("2. Search inventory");
+                    Console.WriteLine("3. Calculate values");
+                    Console.WriteLine("0. Back");
+
+                    int choice = ReadChoice(0, 3);
+
+                    switch (choice)
+                    {
+                        case 1:
+                            ProduceProduct(products);
+                            break;
+                        case 2:
+                            SearchInventory(products);
+                            break;
+                        case 3:
+                            CalculateValues(products);
+                            break;
+                        case 0:
+                            return;
+                    }
+
+                    Console.WriteLine();
+                }
+            }
+
+            static void ProduceProduct(List<Product> products)
+            {
+                Console.WriteLine("Select product type:");
+                Console.WriteLine("1. Ursulet Plus");
+                Console.WriteLine("2. Cuburi Lemn");
+                Console.WriteLine("3. Papusa");
+                Console.WriteLine("4. Minge");
+                Console.WriteLine("5. Frisbee");
+                int typeChoice = ReadChoice(1, 5);
+
+                Console.Write("Enter product name: ");
+                string name = Console.ReadLine() ?? string.Empty;
+                decimal productionCost = ReadDecimal("Enter production cost: ");
+                decimal sellingPrice = ReadDecimal("Enter selling price: ");
+                int quantity = ReadInt("Enter produced quantity: ", 1);
+                DateTime productionDate = ReadDate("Enter production date (dd/mm/yyyy): ");
+
+                Product product = typeChoice switch
+                {
+                    1 => new UrsuletPlus(name, productionCost, sellingPrice, quantity, productionDate),
+                    2 => new CuburiLemn(name, productionCost, sellingPrice, quantity, productionDate),
+                    3 => new Papusa(name, productionCost, sellingPrice, quantity, productionDate),
+                    4 => new Minge(name, productionCost, sellingPrice, quantity, productionDate),
+                    _ => new Frisbee(name, productionCost, sellingPrice, quantity, productionDate)
+                };
+
+                products.Add(product);
+                Console.WriteLine($"Produced {quantity} units of {product.Name}.");
+            }
+
+            static void SearchInventory(List<Product> products)
+            {
+                Console.Write("Enter product name to search: ");
+                string searchTerm = Console.ReadLine() ?? string.Empty;
+
+                bool found = false;
+                foreach (var product in products)
+                {
+                    if (product.Name != null && product.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase))
+                    {
+                        product.Describe();
+                        found = true;
+                    }
+                }
+
+                if (!found)
+                {
+                    Console.WriteLine("No matching products found.");
+                }
+            }
+
+            static void CalculateValues(List<Product> products)
+            {
+                if (products.Count == 0)
+                {
+                    Console.WriteLine("No products in inventory.");
+                    return;
+                }
+
+                decimal totalStockValue = 0;
+                decimal totalProfit = 0;
+
+                foreach (var product in products)
+                {
+                    totalStockValue += product.Quantity * product.SellingPrice;
+                    totalProfit += product.Quantity * (product.SellingPrice - product.ProductionCost);
+                }
+
+                Console.WriteLine($"Total stock value: {totalStockValue:C}");
+                Console.WriteLine($"Total expected profit: {totalProfit:C}");
             }
 
             static void ShowMachineManagementMenu(List<Machine> machines)
@@ -179,7 +325,15 @@ namespace SmartFactoryManagementSystem
                 var machine = SelectMachine(machines);
                 if (machine is null) return;
                 machine.Inspect();
+
+                var materials = new List<string>();
+                foreach (var part in machine.GetParts())
+                {
+                    materials.Add(part.GetMaterial().ToString());
+                }
+
                 Console.WriteLine($"{machine.GetName()} inspected. Status: {machine.GetStatus()}, Condition: {machine.GetCondition()}");
+                Console.WriteLine($"Materials used: {string.Join(", ", materials)}");
             }
 
             static void RepairMachine(List<Machine> machines)

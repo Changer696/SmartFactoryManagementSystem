@@ -16,7 +16,7 @@ namespace SmartFactoryManagementSystem
                 throw new ArgumentNullException(nameof(product));
             }
 
-            if (quantity <= 0)
+            if (!ConsumeMaterialsForProduction(quantity))
             {
                 return false;
             }
