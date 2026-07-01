@@ -2,7 +2,7 @@ using System;
 
 namespace SmartFactoryManagementSystem
 {
-    public class MachinePart
+    public abstract class MachinePart
     {
         private readonly string partId;
         private readonly string name;

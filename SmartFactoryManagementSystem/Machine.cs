@@ -46,7 +46,7 @@ namespace SmartFactoryManagementSystem
             this.parts = new List<MachinePart>();
         }
 
-        public abstract bool Produce(Product product, int quantity);
+       
 
         public abstract string RunDiagnostics();
 

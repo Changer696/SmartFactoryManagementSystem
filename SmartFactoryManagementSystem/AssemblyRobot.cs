@@ -9,7 +9,7 @@ namespace SmartFactoryManagementSystem
         {
         }
 
-        public override bool Produce(Product product, int quantity);
+        
         
 
         
